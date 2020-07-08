@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # A linked stack data structure for COP 4530 by Team Nevada
 # Thomas Hall (Requirements)
 # Grant Gurvis (Developer)
@@ -157,6 +159,8 @@ if __name__ == "__main__":
             print(stack.empty())
         if command.startswith('ListSize'):
             print(stack.list_size())
+        if command.startswith('Size'):
+            print(stack.size())
         if command.startswith('Top'):
             print(stack.top())
         if command.startswith('Inspect'):

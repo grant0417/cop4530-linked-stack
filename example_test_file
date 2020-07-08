@@ -1,0 +1,22 @@
+Push 1
+Push 2
+# Prints 2 since there are 2 items on the stack
+Size
+# Prints 2
+Pop
+# Prints 1
+Top
+# Also prints 1
+Pop
+# Prints True since the stack is empty
+Empty
+Push "Hello"
+# Prints False since the stack is no longer empty
+Empty
+# Prints 1 since there is 1 item in the list
+List Size
+# Prints the full data structure for inspection (if uncommented)
+# Inspect
+# Resets the data structure to a new object
+Clear
+
