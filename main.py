@@ -75,7 +75,7 @@ class LinkedStack:
     def top(self):
         # Returns an exception if the stack is empty
         if self.stack_size == 0:
-            raise Exception("Underflow")
+            raise ValueError
         else:
             return self.linked_list.item[self.itop]
 
@@ -119,7 +119,7 @@ class LinkedStack:
     def pop(self) -> Any:
         # Returns exception if the stack is empty
         if self.stack_size == 0 or self.linked_list is None:
-            raise Exception("Underflow")
+            raise ValueError
         else:
             item = self.linked_list.item[self.itop]
             self.linked_list.item[self.itop] = None
@@ -140,30 +140,42 @@ if __name__ == "__main__":
         raise ValueError('Please provide one file name of test file in the same directory.')
     dir_path = os.path.dirname(os.path.realpath(__file__)) + '/' + sys.argv[1]
 
+
     # Sets up stack
     stack = LinkedStack()
 
     # Reads from input file and prints results
     for command in open(dir_path, 'r').readlines():
+        command = command.strip()
         if command.startswith('Push'):
             item_string = command.lstrip('Push').strip()
             try:
                 # Some ast magic to evaluate the literal to the correct type
                 stack.push(ast.literal_eval(item_string))
-            except ValueError:
+            except (ValueError, SyntaxError):
                 # ast can error if it can not evaluate the type
                 print("Could not push:", item_string)
-        if command.startswith('Pop'):
-            print(stack.pop())
-        if command.startswith('Empty'):
+        elif command.startswith('Pop'):
+            try:
+                print(stack.pop())
+            except ValueError:
+                print("Can not Pop, no items on the stack.")
+        elif command.startswith('Empty'):
             print(stack.empty())
-        if command.startswith('ListSize'):
+        elif command.startswith('ListSize'):
             print(stack.list_size())
-        if command.startswith('Size'):
+        elif command.startswith('Size'):
             print(stack.size())
-        if command.startswith('Top'):
-            print(stack.top())
-        if command.startswith('Inspect'):
+        elif command.startswith('Top'):
+            try:
+                print(stack.top())
+            except ValueError:
+                print("Can not Top, no items on the stack.")
+        elif command.startswith('Inspect'):
             print(stack)
-        if command.startswith('Clear'):
+        elif command.startswith('Clear'):
             stack = LinkedStack()
+        elif command.startswith('#') or command.isspace() or len(command) == 0:
+            pass
+        else:
+            print("Command not recognized:", command)
