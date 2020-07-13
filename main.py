@@ -6,10 +6,9 @@
 # Austin Hadsock (Tester)
 # Brian Guenzatti (Tester)
 
-# Imports python standard libraries
+# Imports Python standard libraries
 import ast
 import os
-import pprint
 import sys
 from typing import Optional, Any
 
@@ -19,12 +18,13 @@ class LinkedList:
     item: Any
 
     # A very basic linked list that holds an item
-    def __init__(self, item: Any):
+    def __init__(self, item: Any, next_list: 'LinkedList' = None):
         self.item = item
-        self.next = None
+        self.next = next_list
 
     def __repr__(self):
-        return pprint.pformat(vars(self))
+        return "LinkedList(item={},\n" \
+               "  next={})".format(self.item, self.next)
 
     def copy(self) -> 'LinkedList':
         self_copy = LinkedList(self.item)
@@ -39,16 +39,18 @@ class LinkedStack:
     itop: int
 
     # A stack implemented using linked lists
-    def __init__(self):
+    def __init__(self, itop=0, stack_size=0, linked_list=None):
         # The current index in the head array that is the top
-        self.itop = 0
+        self.itop = itop
         # Number of items currently in the stack
-        self.stack_size = 0
+        self.stack_size = stack_size
         # Head of the LinkedList
-        self.linked_list = None
+        self.linked_list = linked_list
 
     def __repr__(self):
-        return pprint.pformat(vars(self))
+        return "LinkedStack(itop={}, stack_size={},\n" \
+               "  linked_list={})"\
+            .format(self.itop, self.stack_size, self.linked_list)
 
     # Makes a deep copy of the LinkedStack
     def copy(self) -> 'LinkedStack':
@@ -139,7 +141,6 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         raise ValueError('Please provide one file name of test file in the same directory.')
     dir_path = os.path.dirname(os.path.realpath(__file__)) + '/' + sys.argv[1]
-
 
     # Sets up stack
     stack = LinkedStack()
